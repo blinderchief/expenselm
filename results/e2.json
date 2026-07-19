@@ -1,0 +1,40 @@
+{
+  "n_examples": 200,
+  "schema_validity": 0.81,
+  "expense_precision": 1.0,
+  "expense_recall": 0.8152,
+  "expense_f1": 0.8982,
+  "field_accuracy": {
+    "amount": 0.8152,
+    "currency": 0.7855,
+    "category": 0.8119,
+    "merchant": 0.8053,
+    "date": 0.7789,
+    "reimbursable": 0.802
+  },
+  "policy_accuracy": 0.4521,
+  "parse_failures": [
+    "no_json_found"
+  ],
+  "system": "e2",
+  "diagnosis": {
+    "invalid_outputs": 38,
+    "invalid_fraction": 0.19,
+    "failure_mode": "tool_call_collapse",
+    "explanation": "All 38 invalid outputs are '<tool_call>' loops \u2014 the Qwen3 chat template exposes a <tool_call> token that greedy decoding occasionally repeats instead of emitting JSON. This is a DECODING artifact, not a learned-capability failure; separable from model quality.",
+    "fix": "suppress the <tool_call> token id at generation (suppress_tokens), then re-run the 38. Needs a GPU.",
+    "conditional_on_valid_output": {
+      "n": 162,
+      "expense_f1": 1.0,
+      "policy_accuracy": 0.5547,
+      "field_accuracy": {
+        "amount": 1.0,
+        "currency": 0.9636,
+        "category": 0.996,
+        "merchant": 0.9879,
+        "date": 0.9555,
+        "reimbursable": 0.9838
+      }
+    }
+  }
+}

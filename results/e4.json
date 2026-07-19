@@ -1,0 +1,21 @@
+{
+  "n_examples": 200,
+  "schema_validity": 1.0,
+  "expense_precision": 1.0,
+  "expense_recall": 1.0,
+  "expense_f1": 1.0,
+  "field_accuracy": {
+    "amount": 1.0,
+    "currency": 0.9307,
+    "category": 1.0,
+    "merchant": 0.9736,
+    "date": 1.0,
+    "reimbursable": 1.0
+  },
+  "policy_accuracy": 0.9043,
+  "parse_failures": [],
+  "latency_p50_s": null,
+  "system": "e4",
+  "model": "claude-fable-5 (in-session, zero-shot)",
+  "note": "E4 by Claude Fable 5 as frontier baseline; same model designed labeling rules \u2014 treat as expert ceiling. Re-graded after merchant-label repair."
+}

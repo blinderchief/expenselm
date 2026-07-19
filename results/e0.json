@@ -1,0 +1,22 @@
+{
+  "n_examples": 200,
+  "schema_validity": 0.995,
+  "expense_precision": 0.9866,
+  "expense_recall": 0.9736,
+  "expense_f1": 0.9801,
+  "field_accuracy": {
+    "amount": 0.9736,
+    "currency": 0.8548,
+    "category": 0.7294,
+    "merchant": 0.6469,
+    "date": 0.429,
+    "reimbursable": 0.8812
+  },
+  "policy_accuracy": 0.2706,
+  "parse_failures": [
+    "schema_violation:value_error:expenses.0.policy_flags"
+  ],
+  "latency_p50_s": 3.01,
+  "system": "e0",
+  "model": "mlx-community/Qwen3-4B-Instruct-2507-4bit"
+}
