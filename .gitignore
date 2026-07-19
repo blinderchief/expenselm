@@ -35,3 +35,6 @@ data/raw_generations/
 video/slide-*.jpg
 video/*.pdf
 video/unpacked/
+
+video
+expenselm-prd.md
