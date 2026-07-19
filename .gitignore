@@ -30,3 +30,8 @@ results/*.jsonl
 data/master.jsonl
 data/master_raw.jsonl
 data/raw_generations/
+
+# Video render intermediates
+video/slide-*.jpg
+video/*.pdf
+video/unpacked/
