@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+
+# Secrets — NEVER commit API keys
+.env
+
+# Large artifacts — these go to HuggingFace Hub / Google Drive, not git
+models/
+checkpoints/
+*.gguf
+*.safetensors
+wandb/
+
+# Generated data that can be re-created (keep seed + verified splits in git)
+data/raw_generations/
+results/*.jsonl
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# Regenerable data intermediates
+data/master.jsonl
+data/master_raw.jsonl
+data/raw_generations/

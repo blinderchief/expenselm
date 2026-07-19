@@ -1,0 +1,46 @@
+[project]
+name = "expenselm"
+version = "0.1.0"
+description = "ExpenseLM: a fine-tuned 4B expense-extraction model with a rigorous eval harness"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Suyash Singh" }]
+
+# Core dependencies — needed everywhere (Mac + Colab).
+# Training-only deps (unsloth, trl, torch) are NOT listed here on purpose:
+# you install those inside Colab where the GPU lives. See docs/LEARNING_GUIDE.md §7.
+dependencies = [
+    "pydantic>=2.7",        # schema validation — the heart of the eval harness
+    "google-genai>=1.0",    # Gemini API: synthetic data generation + E4 baseline
+                            # (anthropic optional — install it only if you also
+                            #  want a Claude column in the results table)
+    "rapidfuzz>=3.0",       # fuzzy string matching for the contamination check
+    "pyyaml>=6.0",          # policy + config files
+    "requests>=2.31",       # talking to LM Studio's local server for E5
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.4",
+]
+# Install these ON COLAB ONLY (or a CUDA machine):
+#   pip install unsloth trl peft bitsandbytes wandb
+# On the M5 Pro Mac for the MLX run:
+#   pip install mlx-lm
+
+[project.scripts]
+expenselm = "expenselm.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100

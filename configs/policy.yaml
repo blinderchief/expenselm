@@ -1,0 +1,45 @@
+# ============================================================================
+# The expense policy — injected into the system prompt at inference time.
+#
+# WHY THIS EXISTS (PRD §4): the model must APPLY a policy, not just extract
+# fields. This is what elevates the task from "regex with extra steps" to
+# something that needs reasoning: is a ₹9,000 dinner reimbursable? Only if
+# you know the meals limit is ₹2,000/day and flag it `over_limit`.
+#
+# The eval harness reads this same file, so the prompt and the grader can
+# never drift apart (single source of truth).
+# ============================================================================
+
+currency_default: INR   # if amounts appear without currency AND context is Indian
+
+# Per-category limits, in INR per expense line. Amounts above the limit are
+# still recorded, but must carry the `over_limit` policy flag and
+# reimbursable stays true unless the category itself is non-reimbursable.
+limits:
+  travel: 5000        # cabs, flights (per leg), trains
+  meals: 2000         # per meal, per person
+  lodging: 8000       # per night
+  supplies: 10000     # office supplies, equipment under approval threshold
+  software: 15000     # licenses, SaaS subscriptions
+  entertainment: 3000 # client entertainment ONLY (see rules)
+  other: 2000
+
+rules:
+  # Categories reimbursable by default
+  reimbursable_categories: [travel, meals, lodging, supplies, software]
+  # Entertainment is reimbursable ONLY when a client/business purpose is
+  # stated in the message; otherwise reimbursable=false + flag personal_expense.
+  entertainment_requires_client_context: true
+  # Any single expense >= this amount requires a receipt; if the message
+  # doesn't mention a receipt/bill/invoice, add the `missing_receipt` flag.
+  receipt_required_above: 500
+  # Alcohol-only expenses are never reimbursable.
+  alcohol_reimbursable: false
+
+# The ONLY flag values the model may emit. The grader rejects anything else.
+allowed_flags:
+  - over_limit          # amount exceeds the category limit
+  - missing_receipt     # >= receipt threshold but no receipt mentioned
+  - personal_expense    # personal / no business purpose
+  - unclear_purpose     # business purpose ambiguous, needs human review
+  - currency_unknown    # amount present but currency not inferable
